@@ -133,7 +133,7 @@ PageRouteBuilder<Object?> flipTransition(Widget screen) {
           return Transform(
             transform: Matrix4.identity()
               ..setEntry(3, 2, 0.001)
-              ..rotateY(3.14 * flipAnimation.value),
+              ..rotateY(2 * 3.14 * flipAnimation.value),
             alignment: Alignment.center,
             child: child,
           );
@@ -149,7 +149,7 @@ PageRouteBuilder<Object?> elasticTransition(Widget screen) {
     pageBuilder: (context, animation, secondaryAnimation) => screen,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       final elasticAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-        CurvedAnimation(parent: animation, curve: Curves.elasticOut),
+        CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
       );
       return ScaleTransition(
         scale: elasticAnimation,
@@ -190,7 +190,7 @@ PageRouteBuilder<Object?> verticalFlipTransition(Widget screen) {
             alignment: Alignment.center,
             transform: Matrix4.identity()
               ..setEntry(3, 2, 0.001)
-              ..rotateX(pi * flipAnimation.value),
+              ..rotateX(2 * pi * flipAnimation.value),
             child: child,
           );
         },
@@ -205,17 +205,23 @@ PageRouteBuilder<Object?> fadeThroughColorTransition(
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => screen,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final slowAnimation = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOut,
+      );
       return AnimatedBuilder(
-        animation: animation,
+        animation: slowAnimation,
         builder: (context, child) {
           return Stack(
             children: [
               FadeTransition(
-                opacity: Tween<double>(begin: 1.0, end: 0.0).animate(animation),
+                opacity:
+                    Tween<double>(begin: 1.0, end: 0.0).animate(slowAnimation),
                 child: Container(color: transitionColor),
               ),
               FadeTransition(
-                opacity: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
+                opacity:
+                    Tween<double>(begin: 0.0, end: 1.0).animate(slowAnimation),
                 child: child,
               ),
             ],

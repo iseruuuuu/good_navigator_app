@@ -119,14 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('fadeThroughColorTransition'),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  verticalFlipTransition(const SecondScreen()),
-                );
-              },
-              child: const Text('verticalFlipTransition'),
-            ),
           ],
         ),
       ),
